@@ -9,7 +9,8 @@ from django.conf import settings
 from datetime import datetime
 from selenium import webdriver
 
-DRIVER = 'chromedriver'
+DRIVER = './chromedriver'
+
 
 def get_screenshot(request):
     """
@@ -23,8 +24,10 @@ def get_screenshot(request):
         if url is not None and url != '':
             params = urlparse.parse_qs(urlparse.urlparse(url).query)
             if len(params) > 0:
-                if 'w' in params: width = int(params['w'][0])
-                if 'h' in params: height = int(params['h'][0])
+                if 'w' in params:
+                    width = int(params['w'][0])
+                if 'h' in params:
+                    height = int(params['h'][0])
             driver = webdriver.Chrome(DRIVER)
             driver.get(url)
             driver.set_window_size(width, height)
@@ -44,7 +47,7 @@ def get_screenshot(request):
                 image_64_encode = base64.encodestring(screenshot)
                 var_dict = {'screenshot': image_64_encode}
 
-            driver.quit()    
+            driver.quit()
             return render(request, 'home.html', var_dict)
     else:
         return HttpResponse('Error')
