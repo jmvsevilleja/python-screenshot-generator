@@ -17,10 +17,12 @@ from django.conf.urls import url, include
 from django.conf import settings
 from django.views.static import serve
 from app import urls as app_urls
+from django.contrib import admin
 
 urlpatterns = [
     url(r'^', include(app_urls)),
     url(r'^media/(?P<path>.*)$',
-        serve, {'document_root': settings.MEDIA_ROOT,}
-    ),
+        serve, {'document_root': settings.MEDIA_ROOT, }
+        ),
+    url(r'admin/', admin.site.urls),
 ]
